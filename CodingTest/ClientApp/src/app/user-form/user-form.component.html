@@ -1,0 +1,11 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+  <label for="fname">First name:</label><br>
+  <input type="text" id="firstName" name="firstName" formControlName="firstName" class="form-control" /><br>
+  <div *ngIf="userForm.get('firstName').invalid && userForm.get('firstName').touched ">First Name is required</div> <br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lastName" name="lastName" formControlName="lastName" class="form-control" /><br><br>
+  <div *ngIf="userForm.get('lastName').invalid && userForm.get('lastName').touched ">Last Name is required</div> <br>
+
+  <input type="submit" value="Submit" [disabled]="!userForm.valid">
+</form>

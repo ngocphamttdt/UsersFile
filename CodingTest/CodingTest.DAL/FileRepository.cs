@@ -13,10 +13,15 @@ namespace CodingTest.CodingTest.DAL
 {
     public class FileRepository<T> : IRepository<T> where T : BaseEntity
     {
-       
-        public async Task<T> AddAsync(T entity)
+        public async Task<bool> AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            IList<T> data = (await ReadFile()).ToList();
+
+            entity.Id = (await GetMaxId(data)) + 1;
+            data.Add(entity);
+
+            string convertedJson = JsonConvert.SerializeObject(data, Formatting.Indented);
+            return await WriteFile(convertedJson);
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -48,5 +53,26 @@ namespace CodingTest.CodingTest.DAL
                 return JsonConvert.DeserializeObject<IEnumerable<T>>(content);
             }
         }
+
+        private async Task<bool> WriteFile(string jsonData)
+        {
+            try
+            {
+                File.WriteAllText(@$"{FileConfiguration.BASEPATH}\{FileConfiguration.FILENAME}", String.Empty);
+
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(@$"{FileConfiguration.BASEPATH}\{FileConfiguration.FILENAME}"), true))
+                {
+                    await outputFile.WriteAsync(jsonData);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+                throw ex;
+            }
+
+        }
+        private async Task<int> GetMaxId(IEnumerable<T> users) => (await ReadFile()).Max(x => x.Id);
     }
 }

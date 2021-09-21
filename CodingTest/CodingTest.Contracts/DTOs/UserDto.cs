@@ -1,7 +1,8 @@
-﻿namespace CodingTest.CodingTest.Contracts.Entites
+﻿namespace CodingTest.CodingTest.Contracts.DTOs
 {
-    public class User:BaseEntity
+    public class UserDto
     {
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

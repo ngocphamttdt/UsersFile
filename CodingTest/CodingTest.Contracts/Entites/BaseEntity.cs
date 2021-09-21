@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CodingTest.CodingTest.Contracts.Entites
+﻿namespace CodingTest.CodingTest.Contracts.Entites
 {
     public class BaseEntity
     {

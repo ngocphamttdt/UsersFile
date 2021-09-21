@@ -30,6 +30,15 @@ namespace CodingTest
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
+                });
+            });
+
             services.AddTransient(typeof(IRepository<>), typeof(FileRepository<>));
             services.AddTransient<IUserService, UserService>();
 
@@ -57,6 +66,7 @@ namespace CodingTest
             }
 
             app.UseRouting();
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
